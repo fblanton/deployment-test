@@ -71,7 +71,6 @@ describe('Books API', () => {
       })
         .then(res => res.json())
         .then(doc => {
-          console.log(doc)
           expect(doc).to.include(testBook)
           done();
         })
