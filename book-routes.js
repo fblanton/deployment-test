@@ -5,13 +5,21 @@ module.exports = db => {
   const router = new Router();
   const books = db.collection('books');
 
-  router.post('/', (req, res, next) =>
-    books
-      .insertMany(req.body)
-      .then(({ insertedCount, ops, insertedIds }) =>
-        res.json(({ insertedCount, ops, insertedIds })))
-      .catch(next)
-  )
+  router.post('/', (req, res, next) => {
+    if (Array.isArray(req.body)) {
+      books
+        .insertMany(req.body)
+        .then(({ insertedCount, ops, insertedIds }) =>
+          res.json(({ insertedCount, ops, insertedIds })))
+          .catch(next)
+    } else {
+      books
+        .insertOne(req.body)
+        .then((insertedCount, ops, insertedIds) =>
+          res.json(({ insertedCount, ops, insertedIds })))
+          .catch(next)
+    }
+  })
 
   router.get('/', ({ query }, res, next) =>
     books
