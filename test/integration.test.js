@@ -25,7 +25,7 @@ describe('Books API', () => {
   beforeEach(done => {
     books
       .deleteMany()
-      .then(
+      .then(() =>
         books
           .insertMany(testBooks)
           .then(() => done())
