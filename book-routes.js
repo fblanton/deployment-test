@@ -9,15 +9,14 @@ module.exports = db => {
     if (Array.isArray(req.body)) {
       books
         .insertMany(req.body)
-        .then(({ insertedCount, ops, insertedIds }) =>
-          res.json(({ insertedCount, ops, insertedIds })))
-          .catch(next)
+        .then(({ ops }) => res.json(ops))
+        .catch(next)
     } else {
       books
         .insertOne(req.body)
-        .then((insertedCount, ops, insertedIds) =>
-          res.json(({ insertedCount, ops, insertedIds })))
-          .catch(next)
+        .then(({ ops }) => {
+          res.json(ops[0])})
+        .catch(next)
     }
   })
 

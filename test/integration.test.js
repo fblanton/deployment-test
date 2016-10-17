@@ -42,17 +42,37 @@ describe('Books API', () => {
 
   describe('POST [array of books]', () => {
     it('inserts many books into the db', done => {
+      const testBooks = [
+        { title: 'World', author: "Sam" },
+        { title: 'Hello', author: "Paul" },
+      ]
       fetch(TEST_URL + '/books', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify([
-          { title: 'World', author: "Sam" },
-          { title: 'Hello', author: "Paul" },
-        ])
+        body: JSON.stringify(testBooks)
       })
         .then(res => res.json())
-        .then(({ insertedCount }) => {
-          expect(insertedCount).to.equal(2);
+        .then(ops => {
+          expect(ops[0]).to.include(testBooks[0])
+          expect(ops[1]).to.include(testBooks[1]);
+          done();
+        })
+        .catch(done)
+    })
+  })
+
+  describe('POST a single book', () => {
+    it('insert one book into the db', done => {
+      const testBook = { title: 'World', author: "Sam" }
+      fetch(TEST_URL + '/books', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(testBook)
+      })
+        .then(res => res.json())
+        .then(doc => {
+          console.log(doc)
+          expect(doc).to.include(testBook)
           done();
         })
         .catch(done)
