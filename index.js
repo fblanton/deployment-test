@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 1337;
 const DEFAULT_URI = 'mongodb://localhost:27017/books'
 const MONGO_URI = process.env.MONGODB_URI || DEFAULT_URI
 
-MongoClient.connect(URI, (err, db) => {
+MongoClient.connect(MONGO_URI, (err, db) => {
   if (err) {
     // eslint-disable-next-line
     console.error(err);
